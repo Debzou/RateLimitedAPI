@@ -1,6 +1,8 @@
 // Accounts' Schemas
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const uuidv4 = require('uuid/v4');
+
 const AccountSchema = new Schema (
 {
 	username : String,
@@ -12,9 +14,13 @@ const AccountSchema = new Schema (
 	createdAt : {
 		type : Date,
 		default : Date.now
+	},
+	token : {
+		type : String,
+		default : uuidv4()
 	}
 });
 
 module.exports = {
-	Account : mongoose.model('Account',AccountSchema)
+	Account : mongoose.model('Account', AccountSchema)
 };
