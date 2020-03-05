@@ -3,17 +3,26 @@ const controller = require('../controllers');
 
 // If we have the root route we send the person to /home
 router.get('/',(req,res)=>{
-    res.render('index', {});
+    controller.goToHome(req,res);
 });
 
 router.get('/home',(req,res)=>{
-    res.render('index', {});
+    controller.goToHome(req,res);
 });
 
 router.get('/api',(req,res)=>{
-    res.json("status:success");
+    res.json("You need to be authenticated");
 });
 
+router.post('/api',(req,res)=>{
+
+    // Check if there is a token (otherwise we deny)
+    if (typeof req.body.token === 'undefined') {
+        res.json("You need to be authenticated");
+    } else {
+        controller.limitAPICall(req.body.token, req, res, controller.getAPI);
+    }
+});
 
 // Account
 

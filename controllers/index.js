@@ -1,3 +1,11 @@
+const redis = require("redis");
+const client = redis.createClient();
+
+// Go to Home
+function goToHome(req, res) {
+    res.render('index', {session : req.session});
+}
+
 // Signup
 function goToSignUp(req, res) {
     // If the person is already logged in we redirect him to the home page
@@ -32,7 +40,6 @@ function signUpPerson(req, res) {
 }
 
 // Log In
-
 function goToLogIn(req, res) {
     // If the person is already logged in we redirect him to the home page
     if (typeof req.session.username !== 'undefined') {
@@ -66,6 +73,7 @@ function logInPerson(req, res) {
 
 // Log Out
 function logOut(req, res) {
+
     req.session.destroy((err) => {
         if(err) {
             return console.log(err);
@@ -94,15 +102,33 @@ function getEMail(req, res) {
     const Models = require('../models');
 
     Models.Account.find({email : req.params.email}, function(err, email) {
-
         if (err) throw err;
-
         res.json(email);
-
     });
-
 }
 
+function getAPI(req, res) {
+    res.json("status:success");
+}
+
+function limitAPICall(token, req, res, callback) {
+    client.get(token, function(err, reply) {
+
+        if (reply !== null && reply >= 5) {
+            res.json("Too many requests");
+        } else {
+            let value = client.incr(token);
+
+            if (value == 1) {
+                client.expire(token, 10);
+            }
+
+            callback(req, res);
+        }
+    });
+}
+
+module.exports.goToHome = goToHome;
 module.exports.goToSignUp = goToSignUp;
 module.exports.signUpPerson = signUpPerson;
 module.exports.goToLogIn = goToLogIn;
@@ -111,3 +137,5 @@ module.exports.logOut = logOut;
 
 module.exports.getUsername = getUsername;
 module.exports.getEMail = getEMail;
+module.exports.limitAPICall = limitAPICall;
+module.exports.getAPI = getAPI;
