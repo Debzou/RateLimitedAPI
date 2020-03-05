@@ -1,0 +1,30 @@
+{
+  "name": "ratelimitedapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrWormsy/RateLimitedAPI.git"
+  },
+  "author": "Antonin ROSA-MARTIN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrWormsy/RateLimitedAPI/issues"
+  },
+  "homepage": "https://github.com/MrWormsy/RateLimitedAPI#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "connect-redis": "^4.0.4",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "mongoose": "^5.9.3",
+    "path": "^0.12.7",
+    "redis": "^3.0.2"
+  }
+}
